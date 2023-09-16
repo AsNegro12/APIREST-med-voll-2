@@ -5,6 +5,8 @@ import med.voll.api.domain.direccion.DatosDireccion;
 
 public record DatosActualizarPaciente(@NotNull Long id,
                                       String nombre,
+                                      String email,
+                                      String telefono,
                                       String rfc,
                                       DatosDireccion direccion) {
 }
