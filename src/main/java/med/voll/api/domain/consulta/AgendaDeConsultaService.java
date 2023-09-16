@@ -4,6 +4,7 @@ import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.domain.paciente.Paciente;
 import med.voll.api.domain.paciente.PacienteRepository;
+import med.voll.api.infra.errores.ValidacionDeIntegridadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +20,27 @@ public class AgendaDeConsultaService
     @Autowired
     private PacienteRepository pacienteRepository;
 
-    public void agendar(DatosAgendarConsulta datosAgendarConsulta)
+    public void agendar(DatosAgendarConsulta datos)
     {
-        var paciente = pacienteRepository.findById(datosAgendarConsulta.idPaciente()).get();
-        var medico = medicoRepository.findById(datosAgendarConsulta.idMedico()).get();
+        if(pacienteRepository.findById(datos.idPaciente()).isPresent())
+        {
+            throw new ValidacionDeIntegridadException(" este id para el pasiente no fue encontrado.");
+        }
 
-        var consulta = new Consulta(null, paciente, medico, datosAgendarConsulta.fecha());
+        if(datos.idMedico() != null && medicoRepository.existsById(datos.idMedico()))
+        {
+            throw new ValidacionDeIntegridadException(" este id para el medico no fue encontrado.");
+        }
+
+        var paciente = pacienteRepository.findById(datos.idPaciente()).get();
+        var medico = escogerMedico(datos);
+
+        var consulta = new Consulta(null, paciente, medico, datos.fecha());
         consultaRepository.save(consulta);
+    }
+
+    private Medico escogerMedico(DatosAgendarConsulta datos)
+    {
+        return  null;
     }
 }
