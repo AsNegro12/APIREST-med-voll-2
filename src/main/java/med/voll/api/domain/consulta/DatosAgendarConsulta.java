@@ -13,4 +13,5 @@ public record DatosAgendarConsulta(
         @NotNull
         @Future
         LocalDateTime fecha)
-{ }
+{
+}
