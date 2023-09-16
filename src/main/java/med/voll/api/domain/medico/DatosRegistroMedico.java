@@ -1,10 +1,7 @@
 package med.voll.api.domain.medico;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import med.voll.api.domain.direccion.DatosDireccion;
 
 public record DatosRegistroMedico(
@@ -17,7 +14,7 @@ public record DatosRegistroMedico(
         @NotBlank
         String telefono,
         @NotBlank
-
+        @Size(min = 10,max = 10)
         String rfc,
         @NotNull
         Especialidad especialidad,
