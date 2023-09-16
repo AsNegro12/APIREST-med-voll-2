@@ -1,4 +1,4 @@
-package med.voll.api.domain.paciente.medico;
+package med.voll.api.domain.paciente;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,28 +27,28 @@ public class Paciente {
     @Embedded
     private Direccion direccion;
 
-    public Paciente(DatosRegistroPaciente datosRegistroMedico) {
+    public Paciente(DatosRegistroPaciente datosRegistroPaciente) {
         this.activo = true;
-        this.nombre = datosRegistroMedico.nombre();
-        this.email = datosRegistroMedico.email();
-        this.rfc = datosRegistroMedico.rfc();
-        this.telefono = datosRegistroMedico.telefono();
-        this.direccion = new Direccion(datosRegistroMedico.direccion());
+        this.nombre = datosRegistroPaciente.nombre();
+        this.email = datosRegistroPaciente.email();
+        this.rfc = datosRegistroPaciente.rfc();
+        this.telefono = datosRegistroPaciente.telefono();
+        this.direccion = new Direccion(datosRegistroPaciente.direccion());
     }
 
-    public void actualizarDatos(DatosActualizarPaciente datosActualizarMedico) {
-        if (datosActualizarMedico.nombre() != null) {
-            this.nombre = datosActualizarMedico.nombre();
+    public void actualizarDatos(DatosActualizarPaciente datosActualizarPaciente) {
+        if (datosActualizarPaciente.nombre() != null) {
+            this.nombre = datosActualizarPaciente.nombre();
         }
-        if (datosActualizarMedico.rfc() != null) {
-            this.rfc = datosActualizarMedico.rfc();
+        if (datosActualizarPaciente.rfc() != null) {
+            this.rfc = datosActualizarPaciente.rfc();
         }
-        if (datosActualizarMedico.direccion() != null) {
-            this.direccion = direccion.actualizarDatos(datosActualizarMedico.direccion());
+        if (datosActualizarPaciente.direccion() != null) {
+            this.direccion = direccion.actualizarDatos(datosActualizarPaciente.direccion());
         }
     }
 
-    public void desactivarMedico() {
+    public void desactivarPaciente() {
         this.activo = false;
     }
 }

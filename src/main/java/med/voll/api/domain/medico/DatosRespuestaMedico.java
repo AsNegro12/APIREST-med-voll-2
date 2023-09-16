@@ -7,6 +7,5 @@ public record DatosRespuestaMedico(
         String nombre,
         String email,
         String telefono,
-        String rfc,
         DatosDireccion direccion) {
 }

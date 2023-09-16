@@ -1,4 +1,4 @@
-package med.voll.api.domain.paciente.medico;
+package med.voll.api.domain.paciente;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -19,8 +19,6 @@ public record DatosRegistroPaciente(
         @NotBlank
         @Size(min = 10,max = 10)
         String rfc,
-        @NotNull
-        Especialidad especialidad,
         @NotNull
         @Valid
         DatosDireccion direccion) {

@@ -1,4 +1,4 @@
-package med.voll.api.domain.paciente.medico;
+package med.voll.api.domain.paciente;
 
 import med.voll.api.domain.direccion.DatosDireccion;
 
@@ -7,6 +7,5 @@ public record DatosRespuestaPaciente(
         String nombre,
         String email,
         String telefono,
-        String rfc,
         DatosDireccion direccion) {
 }
