@@ -1,12 +1,14 @@
 package med.voll.api.domain.consulta;
 
+import med.voll.api.domain.consulta.validaciones.ValidadorDeConsultas;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
-import med.voll.api.domain.paciente.Paciente;
 import med.voll.api.domain.paciente.PacienteRepository;
 import med.voll.api.infra.errores.ValidacionDeIntegridadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AgendaDeConsultaService
@@ -20,23 +22,35 @@ public class AgendaDeConsultaService
     @Autowired
     private PacienteRepository pacienteRepository;
 
-    public void agendar(DatosAgendarConsulta datos)
+    @Autowired
+    List<ValidadorDeConsultas> validadores;
+
+    public DatosDetalleConsulta agendar(DatosAgendarConsulta datos)
     {
-        if(pacienteRepository.findById(datos.idPaciente()).isPresent())
+        if(!pacienteRepository.findById(datos.idPaciente()).isPresent())
         {
             throw new ValidacionDeIntegridadException(" este id para el pasiente no fue encontrado.");
         }
 
-        if(datos.idMedico() != null && medicoRepository.existsById(datos.idMedico()))
+        if(datos.idMedico() != null && !medicoRepository.existsById(datos.idMedico()))
         {
             throw new ValidacionDeIntegridadException(" este id para el medico no fue encontrado.");
         }
 
+        validadores.forEach(v->v.validar(datos));
+
         var paciente = pacienteRepository.findById(datos.idPaciente()).get();
         var medico = escogerMedico(datos);
 
+        if(medico == null)
+        {
+            throw new ValidacionDeIntegridadException(" No hay medicos especialistas disponible para este horario");
+        }
+
         var consulta = new Consulta(null, paciente, medico, datos.fecha());
         consultaRepository.save(consulta);
+
+        return new DatosDetalleConsulta(consulta);
     }
 
     private Medico escogerMedico(DatosAgendarConsulta datos)
