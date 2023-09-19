@@ -34,6 +34,7 @@ class MedicoRepositoryTest {
     @DisplayName("deberia retornar nulo cuando el medico se en cuentre en consulta con otro paciente en ese horario")
     void seleccionarMedicoConEspecialidadEnFechaEsenario1()
     {
+        //given(dado que)
         var proximoLunes10H = LocalDate.now()
                 .with(TemporalAdjusters.next(DayOfWeek.MONDAY))
                 .atTime(10,0);
@@ -42,12 +43,14 @@ class MedicoRepositoryTest {
         var paciente = registrarPaciente("Juan","j@mail.com","BBBB010101");
         registrarConsulta(paciente, medico, proximoLunes10H);
 
+        //when(Cuando busquemos)
         var medicoLibre = medicoRepository.seleccionarMedicoConEspecialidadEnFecha(Especialidad.CARDIOLOGIA,proximoLunes10H);
 
        //System.out.println(paciente);
        //System.out.println(medico);
        //System.out.println(proximoLunes10H);
 
+        //then(entonces verificamos)
         assertThat(medicoLibre).isNull();
     }
 
@@ -55,18 +58,21 @@ class MedicoRepositoryTest {
     @DisplayName("deberia retornar un medico cuando relice la consulta en la base de datos para en ese horario")
     void seleccionarMedicoConEspecialidadEnFechaEsenario2()
     {
+        //given(dado que)
         var proximoLunes10H = LocalDate.now()
                 .with(TemporalAdjusters.next(DayOfWeek.MONDAY))
                 .atTime(10,0);
 
         var medico = registrarMedico("uriel","u@medvoll.com","AAAA010101",Especialidad.CARDIOLOGIA);
 
+        //when(Cuando busquemos)
         var medicoLibre = medicoRepository.seleccionarMedicoConEspecialidadEnFecha(Especialidad.CARDIOLOGIA,proximoLunes10H);
 
         //System.out.println(paciente);
         //System.out.println(medico);
         //System.out.println(proximoLunes10H);
 
+        //then(entonces verificamos)
         assertThat(medicoLibre).isEqualTo(medico);
     }
 

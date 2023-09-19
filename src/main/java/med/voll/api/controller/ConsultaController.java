@@ -1,6 +1,7 @@
 package med.voll.api.controller;
 
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -26,6 +27,11 @@ public class ConsultaController
 
     @PostMapping
     @Transactional
+    @Operation(
+            summary = "registra una consulta",
+            description = "",
+            tags = {"consulta ","post "}
+    )
     public ResponseEntity agendar(@RequestBody @Valid DatosAgendarConsulta datos)
     {
         var respuesta = service.agendar(datos);
