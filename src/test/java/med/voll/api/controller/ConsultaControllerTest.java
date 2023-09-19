@@ -15,7 +15,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.client.match.MockRestRequestMatchers;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDateTime;
 
@@ -52,6 +55,22 @@ class ConsultaControllerTest {
 
         //then
         assertThat(respone.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    @DisplayName("Deberia retornar estado http 404 cuando los datos ingresados no sean encontrado")
+    @WithMockUser
+    void agendarEscenario3() throws Exception
+    {
+        //given
+        Long id = 90l;
+
+        //when //then
+        var respone =  mvc.perform(MockMvcRequestBuilders.get("/consulta"+id))
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.NOT_FOUND.value())).andReturn();
+
+        assertThat(respone.getResponse().getContentAsString()).isEmpty();
+
     }
 
     @Test
