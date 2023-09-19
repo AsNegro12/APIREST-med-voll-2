@@ -41,7 +41,7 @@ class MedicoRepositoryTest {
         var medico = registrarMedico("uriel","u@medvoll.com","AAAA010101",Especialidad.CARDIOLOGIA);
         var paciente = registrarPaciente("Juan","j@mail.com","BBBB010101");
         registrarConsulta(paciente, medico, proximoLunes10H);
-        
+
         var medicoLibre = medicoRepository.seleccionarMedicoConEspecialidadEnFecha(Especialidad.CARDIOLOGIA,proximoLunes10H);
 
        //System.out.println(paciente);
