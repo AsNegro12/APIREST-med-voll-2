@@ -51,6 +51,25 @@ class MedicoRepositoryTest {
         assertThat(medicoLibre).isNull();
     }
 
+    @Test
+    @DisplayName("deberia retornar un medico cuando relice la consulta en la base de datos para en ese horario")
+    void seleccionarMedicoConEspecialidadEnFechaEsenario2()
+    {
+        var proximoLunes10H = LocalDate.now()
+                .with(TemporalAdjusters.next(DayOfWeek.MONDAY))
+                .atTime(10,0);
+
+        var medico = registrarMedico("uriel","u@medvoll.com","AAAA010101",Especialidad.CARDIOLOGIA);
+
+        var medicoLibre = medicoRepository.seleccionarMedicoConEspecialidadEnFecha(Especialidad.CARDIOLOGIA,proximoLunes10H);
+
+        //System.out.println(paciente);
+        //System.out.println(medico);
+        //System.out.println(proximoLunes10H);
+
+        assertThat(medicoLibre).isEqualTo(medico);
+    }
+
     private void registrarConsulta(Paciente paciente, Medico medico, LocalDateTime fecha) {
         em.persist(new Consulta(null, paciente, medico, fecha));
     }
